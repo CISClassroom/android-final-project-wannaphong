@@ -33,6 +33,14 @@ class MainActivity : AppCompatActivity() {
             .build()
         googleClient = GoogleSignIn.getClient(this,gso)
         auth = FirebaseAuth.getInstance()
+        checklogin()
+
+    }
+    private fun checklogin(){
+        if(auth.currentUser!=null){
+            val i = Intent(this, Link::class.java)
+            startActivity(i)
+        }
     }
 
     private fun singOut() {
@@ -48,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
         else{
             show.text = user.email.toString()
+            checklogin()
         }
     }
 
