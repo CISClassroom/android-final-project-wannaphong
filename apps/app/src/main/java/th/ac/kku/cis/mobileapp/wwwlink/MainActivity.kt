@@ -3,6 +3,7 @@ package th.ac.kku.cis.mobileapp.wwwlink
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 firebaseAuth(account!!)
                 //FirebaseAuth(account)
             }catch (e:ApiException){
+                Log.w("login",e)
                 updateUI(null)
             }
         }
