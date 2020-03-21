@@ -74,6 +74,7 @@ class HomeFragment : Fragment() {
             var uid:String = auth.currentUser!!.uid
             var newURL = URLItem.create()
             var url:String = et.text.toString()
+            var note:String = descriptionBox.text.toString()
             newURL.url = url
             Log.w("URL",newURL.url)
             var key:String? = ""
@@ -115,6 +116,7 @@ class HomeFragment : Fragment() {
             val newItemDB2 = mDB.child("URL").child(uid).push()
             newURL2user.objID = newItemDB2.key
             newURL2user.status = false
+            newURL2user.Note = note
             newItemDB2.setValue(newURL2user)
 
             dialog.dismiss()
