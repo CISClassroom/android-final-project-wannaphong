@@ -1,5 +1,6 @@
 package th.ac.kku.cis.mobileapp.wwwlink
 
+import android.Manifest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,14 +13,21 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), PermissionListener {
     lateinit var auth: FirebaseAuth
     lateinit var googleClient: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         auth = FirebaseAuth.getInstance()
 
@@ -38,8 +46,10 @@ class MainActivity : AppCompatActivity() {
     }
     private fun checklogin(){
         if(auth.currentUser!=null){
-            val i = Intent(this, Link::class.java)
-            startActivity(i)
+            Dexter.withActivity(this)
+                .withPermission(Manifest.permission.INTERNET)
+                .withListener(this)
+                .check()
         }
     }
 
@@ -93,5 +103,21 @@ class MainActivity : AppCompatActivity() {
                     updateUI(null)
                 }
             }
+    }
+
+    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+        val i = Intent(this, Link::class.java)
+        startActivity(i)
+    }
+
+    override fun onPermissionRationaleShouldBeShown(
+        permission: PermissionRequest?,
+        token: PermissionToken?
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+        TODO("Not yet implemented")
     }
 }

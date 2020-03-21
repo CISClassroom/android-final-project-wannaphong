@@ -6,5 +6,6 @@ class UserLink {
     }
     var objID:String? = null
     var URLobj:String? = null
+    var Note:String? = null
     var status:Boolean? = null
 }

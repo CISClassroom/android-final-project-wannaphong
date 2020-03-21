@@ -5,7 +5,7 @@ class URLItem {
         fun create():URLItem = URLItem()
     }
     var objID:String? = null
-    var URLtitle:String? = null
+    //var URLtitle:String? = null
     var URLtag:String? = null
     var url:String? = null
 }
