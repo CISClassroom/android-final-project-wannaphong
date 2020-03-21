@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
         layout.addView(et) // Notice this is an add method
 
         val descriptionBox = EditText(context)
-        descriptionBox.hint = "Description"
+        descriptionBox.hint = "Note"
         layout.addView(descriptionBox) // Another add method
         dialog.setView(layout)/*
         val et = EditText(activity)
@@ -78,13 +78,12 @@ class HomeFragment : Fragment() {
             var url:String = et.text.toString()
             newURL.url = url
             Log.w("URL",newURL.url)
-            var isok=findurl.orderByChild("URL_item").equalTo(url).ref
+            var isok=findurl.orderByChild("url").equalTo(url).ref
 
             val newURL2user:UserLink = UserLink.create()
 
             var k:String? =null
-
-           // if(isok.toString()==null) {
+            if(isok.key.toString()=="URL_item") {
             try{
                 var doc = Jsoup.connect(url).get()
                 //newURL.URLtitle = doc.title().toString()
@@ -98,11 +97,10 @@ class HomeFragment : Fragment() {
             newURL.objID = newItemDB.key
             newItemDB.setValue(newURL)
             k = newItemDB.key
-         /*   }
+            }
             else{
                 k = isok.key.toString()
-            }//
-*/
+            }
             newURL2user.URLobj=k
             val newItemDB2 = mDB.child("URL").child(uid).push()
             newURL2user.objID = newItemDB2.key
