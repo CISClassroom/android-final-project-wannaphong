@@ -26,6 +26,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     lateinit var auth: FirebaseAuth
+    var todoItemList: MutableList<URLItem>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,56 +72,49 @@ class HomeFragment : Fragment() {
 
         dialog.setPositiveButton("Submit"){
                 dialog,positiveButton ->
-            var uid:String = auth.currentUser!!.uid
+
             var newURL = URLItem.create()
             var url:String = et.text.toString()
             var note:String = descriptionBox.text.toString()
             newURL.url = url
             Log.w("URL",newURL.url)
+            val newURL2user:UserLink = UserLink.create()
             var key:String? = ""
-            var isok=mDB.child("URL_item").orderByChild("url").equalTo(url).limitToFirst(1).addValueEventListener(object:ValueEventListener{
-                override fun onCancelled(p0: DatabaseError) {
-                    TODO("Not yet implemented")
+            newURL2user.Note = note
+            mDB.child("URL_item").orderByChild("url").equalTo(url).limitToFirst(1).addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val children = dataSnapshot!!.children
+                    key=children.first().key.toString()
+                    Log.w("Firebase",key)
+                    newURL2user.URLobj=key
+                    addDB(newURL,newURL2user)
                 }
 
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    for (ds in dataSnapshot.children) {
-                        key = ds.child("objID").getValue(String::class.java)
-
-                    }
+                override fun onCancelled(error: DatabaseError) {
+                     Log.e("Firebase","Failed to read value: ${error.toException()}")
                 }
             })
-            val newURL2user:UserLink = UserLink.create()
+
             Log.w("Key Key",key)
 
-            var k:String? =null
-            if(key.toString()=="") {
-            try{
-                var doc = Jsoup.connect(url).get()
-                //newURL.URLtitle = doc.title().toString()
-            } catch (ex:Exception){
-                Log.w("error",ex)
-            }
-
-
-
-            val newItemDB = mDB.child("URL_item").push()
-            newURL.objID = newItemDB.key
-            newItemDB.setValue(newURL)
-            k = newItemDB.key
-            }
-            else{
-                k = key.toString()
-            }
-            newURL2user.URLobj=k
-            val newItemDB2 = mDB.child("URL").child(uid).push()
-            newURL2user.objID = newItemDB2.key
-            newURL2user.status = false
-            newURL2user.Note = note
-            newItemDB2.setValue(newURL2user)
 
             dialog.dismiss()
         }
         dialog.show()
+    }
+    fun addDB(newURL:URLItem,newURL2user:UserLink){
+        var uid:String = auth.currentUser!!.uid
+        if(newURL2user.URLobj==null){
+            val newItemDB = mDB.child("URL_item").push()
+            newURL.objID = newItemDB.key
+            newItemDB.setValue(newURL)
+            newURL2user.URLobj=newItemDB.key
+        }
+        val newItemDB2 = mDB.child("URL").child(uid).push()
+        newURL2user.objID = newItemDB2.key
+        newURL2user.status = false
+
+        newItemDB2.setValue(newURL2user)
+
     }
 }
