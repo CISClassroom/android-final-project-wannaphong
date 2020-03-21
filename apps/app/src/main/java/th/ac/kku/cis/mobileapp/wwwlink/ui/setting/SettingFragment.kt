@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 
 import th.ac.kku.cis.mobileapp.wwwlink.R
 
@@ -21,7 +22,10 @@ class SettingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.setting_fragment, container, false)
+        val root= inflater.inflate(R.layout.setting_fragment, container, false)
+        val NameSetting: TextView = root.findViewById(R.id.NameSetting)
+        NameSetting.text = "แมว"
+        return root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

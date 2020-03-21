@@ -25,6 +25,6 @@
     <fragment
         android:id="@+id/navigation_setting"
         android:name="th.ac.kku.cis.mobileapp.wwwlink.ui.setting.SettingFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/title_setting"
         tools:layout="@layout/setting_fragment" />
 </navigation>
