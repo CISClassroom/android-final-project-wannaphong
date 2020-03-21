@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun singIn() {
+        singOut()
         var signInInent = googleClient.signInIntent
         startActivityForResult(signInInent,101)
     }
