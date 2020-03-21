@@ -54,21 +54,13 @@ class HomeFragment : Fragment() {
         layout.orientation = LinearLayout.VERTICAL
 
         val et = EditText(context)
-        et.hint = "Title"
+        et.hint = "URL"
         layout.addView(et) // Notice this is an add method
 
         val descriptionBox = EditText(context)
         descriptionBox.hint = "Note"
         layout.addView(descriptionBox) // Another add method
-        dialog.setView(layout)/*
-        val et = EditText(activity)
-
-        dialog.setMessage("Add New URL")
-        dialog.setTitle("Enter URL")
-        dialog.setView(et)
-        dialog.setTitle("Enter Note")
-        val note = EditText(activity)
-        dialog*/
+        dialog.setView(layout)
 
         dialog.setPositiveButton("Submit"){
                 dialog,positiveButton ->
