@@ -9,4 +9,5 @@ class UserLink {
     var URLobj:String? = null
     var Note:String? = null
     var status:Boolean? = null
+    var TimeSave:String? = null
 }
