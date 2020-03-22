@@ -5,6 +5,7 @@ class UserLink {
         fun create():UserLink = UserLink()
     }
     var objID:String? = null
+    var URL:String? = null
     var URLobj:String? = null
     var Note:String? = null
     var status:Boolean? = null

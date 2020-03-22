@@ -105,6 +105,7 @@ class HomeFragment : Fragment() {
         val newItemDB2 = mDB.child("URL").child(uid).push()
         newURL2user.objID = newItemDB2.key
         newURL2user.status = false
+        newURL2user.URL = newURL.url
 
         newItemDB2.setValue(newURL2user)
 
