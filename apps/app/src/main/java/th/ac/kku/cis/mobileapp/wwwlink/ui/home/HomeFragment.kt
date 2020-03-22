@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import org.jsoup.Jsoup
+import th.ac.kku.cis.mobileapp.wwwlink.Cleanurl
 import th.ac.kku.cis.mobileapp.wwwlink.R
 import th.ac.kku.cis.mobileapp.wwwlink.URLItem
 import th.ac.kku.cis.mobileapp.wwwlink.UserLink
@@ -47,6 +48,7 @@ class HomeFragment : Fragment() {
         return root
     }
     fun addNewItem(){
+        var c:Cleanurl = Cleanurl()
         val dialog = AlertDialog.Builder(activity)
 
         val context: Context? = this.context
@@ -66,7 +68,7 @@ class HomeFragment : Fragment() {
                 dialog,positiveButton ->
 
             var newURL = URLItem.create()
-            var url:String = et.text.toString()
+            var url:String =c.clean(et.text.toString())
             var note:String = descriptionBox.text.toString()
             newURL.url = url
             Log.w("URL",newURL.url)
