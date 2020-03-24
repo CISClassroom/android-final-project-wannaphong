@@ -2,6 +2,7 @@ package th.ac.kku.cis.mobileapp.wwwlink.ui.home
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent.getIntent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -57,7 +58,7 @@ class HomeFragment : Fragment()  {
         URLItemList = mutableListOf<UserLink>()
         adapter = URLItemAdapter(requireContext(), URLItemList!!)
         listViewItems!!.setAdapter(adapter)
-        mDatabase.orderByKey().addListenerForSingleValueEvent(itemListener)
+        mDatabase.orderByKey().addValueEventListener(itemListener)//.addListenerForSingleValueEvent(itemListener)
         return root
     }
     var itemListener: ValueEventListener = object : ValueEventListener {
