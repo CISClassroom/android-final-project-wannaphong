@@ -2,6 +2,7 @@ package th.ac.kku.cis.mobileapp.wwwlink.ui.home
 
 import android.app.AlertDialog
 import android.content.Context
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.brouding.simpledialog.builder.General
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import th.ac.kku.cis.mobileapp.wwwlink.Cleanurl
 import th.ac.kku.cis.mobileapp.wwwlink.R
 import th.ac.kku.cis.mobileapp.wwwlink.URLItem
@@ -25,13 +27,32 @@ import th.ac.kku.cis.mobileapp.wwwlink.UserLink
 import java.text.SimpleDateFormat
 import java.util.*
 
+class Content :
+    AsyncTask<Void?, Void?, Void?>() {
+    override fun onPreExecute() {
+        super.onPreExecute()
+    }
 
-class HomeFragment : Fragment() {
+    protected override fun doInBackground(vararg params: Void?): Void? {
+        return null
+    }
+
+    override fun onPostExecute(aVoid: Void?) {
+        super.onPostExecute(aVoid)
+    }
+    public fun gettilte(url:String):String{
+        val document = Jsoup.connect(url).get()
+        return document.title().toString()
+    }
+}
+
+class HomeFragment : Fragment()  {
     lateinit var mDB: DatabaseReference
 
     private lateinit var homeViewModel: HomeViewModel
     lateinit var auth: FirebaseAuth
     var todoItemList: MutableList<URLItem>? = null
+    var c:Content = Content()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,6 +97,14 @@ class HomeFragment : Fragment() {
             newURL.url = url
             Log.w("URL",newURL.url)
             var newURL2user:UserLink = UserLink.create()
+            try{
+                newURL.URLtitle = Content().gettilte(url)
+            }
+            catch (ex:Exception){
+                Log.e("url ->",ex.toString())
+                dialog.dismiss()
+            }
+
             var key:String? = ""
             newURL2user.Note = note
             var i =0
@@ -84,7 +113,6 @@ class HomeFragment : Fragment() {
                     if(i==0){
                     val children = dataSnapshot!!.children
                     try {
-                        key=children.first().key.toString()
                         newURL2user.URLobj=key
                         Log.w("Firebase",key)
                     }
