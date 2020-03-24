@@ -42,6 +42,7 @@ class HomeFragment : Fragment()  {
 
         auth = FirebaseAuth.getInstance()
         uid= auth.currentUser!!.uid
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         mDB = FirebaseDatabase.getInstance().reference
         homeViewModel =
             ViewModelProviders.of(this).get(HomeViewModel::class.java)

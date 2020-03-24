@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 
 class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : BaseAdapter() {
 
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
+    var contextthis: Context = context
     private var itemList = toDoItemList
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -34,6 +36,10 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
         // add text to view
         vh.label.text = NoteText.toString()
         vh.urlshow.text = itemText.toString()
+        vh.ibDeleteObject.setOnClickListener {
+
+                Toast.makeText(view.context,itemText.toString(),Toast.LENGTH_LONG).show()
+        }
         return view
     }
 
