@@ -15,9 +15,9 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         // create object from view
-        val objectId: String = itemList.get(position).objID  as String
-        val itemText: String = itemList.get(position).URL as String
-        val NoteText: String = itemList.get(position).Note  as String
+        val objectId: String? = itemList.get(position).objID  as String?
+        val itemText: String? = itemList.get(position).URL as String?
+        val NoteText: String? = itemList.get(position).Note  as String?
         val view: View
         val vh: ListRowHolder
 
@@ -32,8 +32,8 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
         }
 
         // add text to view
-        vh.label.text = NoteText
-        vh.urlshow.text = itemText
+        vh.label.text = NoteText.toString()
+        vh.urlshow.text = itemText.toString()
         return view
     }
 

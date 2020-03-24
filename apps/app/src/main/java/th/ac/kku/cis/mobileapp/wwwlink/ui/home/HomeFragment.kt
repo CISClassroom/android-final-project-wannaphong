@@ -2,7 +2,6 @@ package th.ac.kku.cis.mobileapp.wwwlink.ui.home
 
 import android.app.AlertDialog
 import android.content.Context
-import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,66 +10,79 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.brouding.simpledialog.SimpleDialog
 import com.brouding.simpledialog.builder.General
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import th.ac.kku.cis.mobileapp.wwwlink.Cleanurl
+import th.ac.kku.cis.mobileapp.wwwlink.*
 import th.ac.kku.cis.mobileapp.wwwlink.R
-import th.ac.kku.cis.mobileapp.wwwlink.URLItem
-import th.ac.kku.cis.mobileapp.wwwlink.UserLink
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Content :
-    AsyncTask<Void?, Void?, Void?>() {
-    override fun onPreExecute() {
-        super.onPreExecute()
-    }
-
-    protected override fun doInBackground(vararg params: Void?): Void? {
-        return null
-    }
-
-    override fun onPostExecute(aVoid: Void?) {
-        super.onPostExecute(aVoid)
-    }
-    public fun gettilte(url:String):String{
-        val document = Jsoup.connect(url).get()
-        return document.title().toString()
-    }
-}
 
 class HomeFragment : Fragment()  {
     lateinit var mDB: DatabaseReference
 
     private lateinit var homeViewModel: HomeViewModel
+    lateinit var adapter: URLItemAdapter
+    private var listViewItems: ListView? = null
     lateinit var auth: FirebaseAuth
-    var todoItemList: MutableList<URLItem>? = null
-    var c:Content = Content()
+    var URLItemList: MutableList<UserLink>? = null
+    lateinit var mDatabase: DatabaseReference
+    var uid:String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         auth = FirebaseAuth.getInstance()
+        uid= auth.currentUser!!.uid
         mDB = FirebaseDatabase.getInstance().reference
         homeViewModel =
             ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        textView.text = "Hi"
+        listViewItems = root.findViewById<View>(R.id.items_list) as ListView
         val addbtn:Button = root.findViewById(R.id.AddURL)
+        //val fab = root.findViewById<View>(R.id.fab) as FloatingActionButton
         addbtn.setOnClickListener {
             addNewItem()
         }
+        mDatabase = FirebaseDatabase.getInstance().reference.child("URL").child(uid!!)//.getReference("URL")//.getRe//.child("URL").child(uid!!).ref
+        URLItemList = mutableListOf<UserLink>()
+        adapter = URLItemAdapter(requireContext(), URLItemList!!)
+        listViewItems!!.setAdapter(adapter)
+        mDatabase.orderByKey().addListenerForSingleValueEvent(itemListener)
         return root
+    }
+    var itemListener: ValueEventListener = object : ValueEventListener {
+
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            // call function
+            addDataToList(dataSnapshot)
+        }
+
+        override fun onCancelled(databaseError: DatabaseError) {
+            // Getting Item failed, display log a message
+            Log.w("MainActivity", "loadItem:onCancelled", databaseError.toException())
+        }
+    }
+    private fun addDataToList(dataSnapshot: DataSnapshot) {
+        for (datas in dataSnapshot.children) {
+            //val name = datas.child("ShrubbedWord").value.toString()
+            //val map = datas.getValue() as HashMap<String, Any>
+            // add data to object
+            val todoItem = UserLink.create()
+            todoItem.objID = datas.key
+            todoItem.URL = datas.child("url").getValue().toString()
+            todoItem.Note = datas.child("note").getValue().toString()
+            URLItemList!!.add(todoItem)
+        }
+        adapter.notifyDataSetChanged()
     }
     fun addNewItem(){
         var c:Cleanurl = Cleanurl()
@@ -98,7 +110,7 @@ class HomeFragment : Fragment()  {
             Log.w("URL",newURL.url)
             var newURL2user:UserLink = UserLink.create()
             try{
-                newURL.URLtitle = Content().gettilte(url)
+               // newURL.URLtitle = Content().gettilte(url)
             }
             catch (ex:Exception){
                 Log.e("url ->",ex.toString())
@@ -142,7 +154,7 @@ class HomeFragment : Fragment()  {
     }
     fun addDB(newURL:URLItem,newURL2user:UserLink){
         try{
-            var uid:String = auth.currentUser!!.uid
+            //var uid:String = auth.currentUser!!.uid
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
             val currentDate:String = sdf.format(Date())
             if(newURL2user.URLobj==null){
@@ -151,7 +163,7 @@ class HomeFragment : Fragment()  {
                 newItemDB.setValue(newURL)
                 newURL2user.URLobj=newItemDB.key
             }
-            val newItemDB2 = mDB.child("URL").child(uid).push()
+            val newItemDB2 = mDB.child("URL").child(uid!!).push()
             newURL2user.objID = newItemDB2.key
             newURL2user.status = false
             newURL2user.URL = newURL.url
