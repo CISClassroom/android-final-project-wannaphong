@@ -63,4 +63,5 @@ dependencies {
     implementation 'com.karumi:dexter:6.0.2'
     implementation 'com.brouding:android-simple-dialog:1.0.1'
     implementation 'io.github.ponnamkarthik:richlinkpreview:1.0.9'
+    implementation 'com.androidisland.ezpermission:ezpermission:0.1.4'
 }
