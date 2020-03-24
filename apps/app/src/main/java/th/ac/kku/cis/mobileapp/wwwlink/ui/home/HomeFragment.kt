@@ -39,7 +39,7 @@ class HomeFragment : Fragment()  {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         auth = FirebaseAuth.getInstance()
         uid= auth.currentUser!!.uid
 
@@ -79,6 +79,7 @@ class HomeFragment : Fragment()  {
             // add data to object
             val todoItem = UserLink.create()
             todoItem.objID = datas.key
+            //val urlobj =  datas.child("urlobj").getValue().toString()
             todoItem.URL = datas.child("url").getValue().toString()
             todoItem.Note = datas.child("note").getValue().toString()
             URLItemList!!.add(todoItem)
@@ -110,13 +111,13 @@ class HomeFragment : Fragment()  {
             newURL.url = url
             Log.w("URL",newURL.url)
             var newURL2user:UserLink = UserLink.create()
-            try{
-               // newURL.URLtitle = Content().gettilte(url)
+           /* try{
+               newURL.URLtitle = Content().gettilte(url)
             }
             catch (ex:Exception){
                 Log.e("url ->",ex.toString())
                 dialog.dismiss()
-            }
+            }*/
 
             var key:String? = ""
             newURL2user.Note = note
@@ -126,6 +127,7 @@ class HomeFragment : Fragment()  {
                     if(i==0){
                     val children = dataSnapshot!!.children
                     try {
+                        key=children.first().key.toString()
                         newURL2user.URLobj=key
                         Log.w("Firebase",key)
                     }

@@ -8,6 +8,10 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import io.github.ponnamkarthik.richlinkpreview.RichLinkViewSkype
+import io.github.ponnamkarthik.richlinkpreview.RichLinkViewTwitter
+import io.github.ponnamkarthik.richlinkpreview.ViewListener
+
 
 class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : BaseAdapter() {
 
@@ -36,6 +40,12 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
         // add text to view
         vh.label.text = NoteText.toString()
         vh.urlshow.text = itemText.toString()
+        vh.richLinkView.setLink(
+            vh.urlshow.text.toString(),
+            object : ViewListener {
+                override fun onSuccess(status: Boolean) {}
+                override fun onError(e: Exception) {}
+            })
         vh.ibDeleteObject.setOnClickListener {
 
                 Toast.makeText(view.context,itemText.toString(),Toast.LENGTH_LONG).show()
@@ -59,5 +69,6 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
         val label: TextView = row!!.findViewById<TextView>(R.id.tv_item_text) as TextView
         val urlshow:TextView = row!!.findViewById<TextView>(R.id.urlshow) as TextView
         val ibDeleteObject: ImageButton = row!!.findViewById<ImageButton>(R.id.iv_delete) as ImageButton
+        val richLinkView = row!!.findViewById(R.id.richLinkView) as RichLinkViewSkype
     }
 }

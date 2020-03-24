@@ -62,4 +62,5 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'com.karumi:dexter:6.0.2'
     implementation 'com.brouding:android-simple-dialog:1.0.1'
+    implementation 'io.github.ponnamkarthik:richlinkpreview:1.0.9'
 }
