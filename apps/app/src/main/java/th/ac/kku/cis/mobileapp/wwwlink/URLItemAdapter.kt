@@ -40,6 +40,7 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
         // add text to view
         vh.label.text = NoteText.toString()
         vh.urlshow.text = itemText.toString()
+        vh.ibDeleteObject.setVisibility(View.GONE)
         vh.richLinkView.setLink(
             vh.urlshow.text.toString(),
             object : ViewListener {
