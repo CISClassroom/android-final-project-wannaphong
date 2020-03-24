@@ -74,6 +74,7 @@ class HomeFragment : Fragment()  {
         }
     }
     private fun addDataToList(dataSnapshot: DataSnapshot) {
+        URLItemList?.clear()
         for (datas in dataSnapshot.children) {
             //val name = datas.child("ShrubbedWord").value.toString()
             //val map = datas.getValue() as HashMap<String, Any>
