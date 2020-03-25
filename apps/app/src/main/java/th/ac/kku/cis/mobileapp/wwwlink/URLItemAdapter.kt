@@ -94,6 +94,6 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
         val label: TextView = row!!.findViewById<TextView>(R.id.tv_item_text) as TextView
         val urlshow:TextView = row!!.findViewById<TextView>(R.id.urlshow) as TextView
         val ibDeleteObject: ImageButton = row!!.findViewById<ImageButton>(R.id.iv_delete) as ImageButton
-        val richLinkView = row!!.findViewById(R.id.richLinkView) as RichLinkViewSkype
+        val richLinkView = row!!.findViewById(R.id.richLinkView) as RichLinkViewTwitter
     }
 }

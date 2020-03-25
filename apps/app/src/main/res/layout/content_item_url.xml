@@ -33,8 +33,19 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="Delete button"
                 android:gravity="end"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                app:srcCompat="@android:drawable/ic_menu_edit" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <io.github.ponnamkarthik.richlinkpreview.RichLinkViewTwitter
+                android:id="@+id/richLinkView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></io.github.ponnamkarthik.richlinkpreview.RichLinkViewTwitter>
         </LinearLayout>
 
         <LinearLayout
@@ -46,18 +57,8 @@
                 android:id="@+id/urlshow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="vertical">
-
-            <io.github.ponnamkarthik.richlinkpreview.RichLinkViewSkype
-                android:id="@+id/richLinkView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></io.github.ponnamkarthik.richlinkpreview.RichLinkViewSkype>
+                android:text="TextView"
+                tools:visibility="invisible" />
         </LinearLayout>
     </LinearLayout>
 
