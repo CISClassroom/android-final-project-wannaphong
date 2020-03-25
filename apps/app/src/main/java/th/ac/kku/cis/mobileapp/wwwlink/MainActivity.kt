@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), PermissionListener {
         auth = FirebaseAuth.getInstance()
 
         sigin.setOnClickListener( {v->singIn()} )
-        sigout.setOnClickListener({v->singOut()})
+        //sigout.setOnClickListener({v->singOut()})
 
         var gso = GoogleSignInOptions.Builder(
                 GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -73,10 +73,10 @@ class MainActivity : AppCompatActivity(), PermissionListener {
 
     private fun updateUI(user: FirebaseUser?) {
         if(user==null){
-            show.text = "No User"
+          //  show.text = "No User"
         }
         else{
-            show.text = user.email.toString()
+            //show.text = user.email.toString()
             checklogin()
         }
     }

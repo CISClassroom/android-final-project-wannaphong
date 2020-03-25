@@ -1,6 +1,7 @@
 package th.ac.kku.cis.mobileapp.wwwlink.ui.home
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent.getIntent
 import android.os.Bundle
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.brouding.simpledialog.SimpleDialog
 import com.brouding.simpledialog.builder.General
+import com.github.loadingview.LoadingDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import th.ac.kku.cis.mobileapp.wwwlink.*
@@ -34,6 +36,7 @@ class HomeFragment : Fragment()  {
     var URLItemList: MutableList<UserLink>? = null
     lateinit var mDatabase: DatabaseReference
     var uid:String? = null
+    var dialogload: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +57,7 @@ class HomeFragment : Fragment()  {
         addbtn.setOnClickListener {
             addNewItem()
         }
+        dialogload= LoadingDialog.get(requireActivity()).show()
         mDatabase = FirebaseDatabase.getInstance().reference.child("URL").child(uid!!)//.getReference("URL")//.getRe//.child("URL").child(uid!!).ref
         URLItemList = mutableListOf<UserLink>()
         adapter = URLItemAdapter(requireContext(), URLItemList!!)
@@ -75,6 +79,7 @@ class HomeFragment : Fragment()  {
     }
     private fun addDataToList(dataSnapshot: DataSnapshot) {
         URLItemList?.clear()
+        dialogload?.show()
         for (datas in dataSnapshot.children) {
             //val name = datas.child("ShrubbedWord").value.toString()
             //val map = datas.getValue() as HashMap<String, Any>
@@ -87,6 +92,7 @@ class HomeFragment : Fragment()  {
             URLItemList!!.add(todoItem)
         }
         adapter.notifyDataSetChanged()
+        dialogload?.hide()
     }
     fun addNewItem(){
         var c:Cleanurl = Cleanurl()
