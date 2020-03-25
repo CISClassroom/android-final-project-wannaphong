@@ -13,16 +13,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
+<!--
         <Button
             android:id="@+id/AddURL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add" />
+            android:text="Add" /> -->
 
         <ListView
             android:id="@+id/items_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:srcCompat="@android:drawable/ic_menu_add" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

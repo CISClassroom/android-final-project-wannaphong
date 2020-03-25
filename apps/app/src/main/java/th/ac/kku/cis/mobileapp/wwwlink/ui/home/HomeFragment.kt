@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.brouding.simpledialog.SimpleDialog
 import com.brouding.simpledialog.builder.General
 import com.github.loadingview.LoadingDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import th.ac.kku.cis.mobileapp.wwwlink.*
@@ -54,9 +55,13 @@ class HomeFragment : Fragment()  {
             ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         listViewItems = root.findViewById<View>(R.id.items_list) as ListView
-        val addbtn:Button = root.findViewById(R.id.AddURL)
+        //val addbtn:Button = root.findViewById(R.id.AddURL)
         //val fab = root.findViewById<View>(R.id.fab) as FloatingActionButton
-        addbtn.setOnClickListener {
+        /*addbtn.setOnClickListener {
+            addNewItem()
+        }*/
+        val fab = root.findViewById<View>(R.id.fab) as FloatingActionButton
+        fab.setOnClickListener{
             addNewItem()
         }
         dialogload= LoadingDialog.get(requireActivity()).show()
