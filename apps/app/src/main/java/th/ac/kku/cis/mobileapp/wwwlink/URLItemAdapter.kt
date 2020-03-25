@@ -67,8 +67,8 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
         val dialog = AlertDialog.Builder(context)
         val alert = AlertDialog.Builder(context)
         val itemEditText = EditText(context)
-        alert.setMessage("Add New Item")
-        alert.setTitle("Enter To Do Item Text")
+        alert.setMessage("Edit Note")
+        //alert.setTitle("Enter To Do Item Text")
         alert.setView(itemEditText)
         // Set submit button dialog
         alert.setPositiveButton("Submit") { dialog, positiveButton ->
