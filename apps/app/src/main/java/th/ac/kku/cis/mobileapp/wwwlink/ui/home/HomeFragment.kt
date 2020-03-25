@@ -1,11 +1,11 @@
 package th.ac.kku.cis.mobileapp.wwwlink.ui.home
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
-import android.content.Intent.getIntent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +24,8 @@ import th.ac.kku.cis.mobileapp.wwwlink.*
 import th.ac.kku.cis.mobileapp.wwwlink.R
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 class HomeFragment : Fragment()  {
@@ -94,6 +96,11 @@ class HomeFragment : Fragment()  {
         adapter.notifyDataSetChanged()
         dialogload?.hide()
     }
+    private fun isValidUrl(url: String): Boolean {
+        val p: Pattern = Patterns.WEB_URL
+        val m: Matcher = p.matcher(url.toLowerCase())
+        return m.matches()
+    }
     fun addNewItem(){
         var c:Cleanurl = Cleanurl()
         val dialog = AlertDialog.Builder(activity)
@@ -106,6 +113,7 @@ class HomeFragment : Fragment()  {
 
         val et = EditText(context)
         et.hint = "URL"
+        et.inputType= InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS //"textWebEmailAddress"
         layout.addView(et) // Notice this is an add method
 
         val descriptionBox = EditText(context)
@@ -115,13 +123,14 @@ class HomeFragment : Fragment()  {
 
         dialog.setPositiveButton("Submit"){
                 dialog,positiveButton ->
-            var newURL = URLItem.create()
-            var url:String =c.clean(et.text.toString())
-            var note:String = descriptionBox.text.toString()
-            newURL.url = url
-            Log.w("URL",newURL.url)
-            var newURL2user:UserLink = UserLink.create()
-           /* try{
+            if(isValidUrl(et.text.toString())) {
+                var newURL = URLItem.create()
+                var url: String = c.clean(et.text.toString())
+                var note: String = descriptionBox.text.toString()
+                newURL.url = url
+                Log.w("URL", newURL.url)
+                var newURL2user: UserLink = UserLink.create()
+                /* try{
                newURL.URLtitle = Content().gettilte(url)
             }
             catch (ex:Exception){
@@ -129,38 +138,46 @@ class HomeFragment : Fragment()  {
                 dialog.dismiss()
             }*/
 
-            var key:String? = ""
-            newURL2user.Note = note
-            var i =0
-            mDB.child("URL_item").orderByChild("url").equalTo(url).limitToFirst(1).addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if(i==0){
-                    val children = dataSnapshot!!.children
-                    try {
-                        key=children.first().key.toString()
-                        newURL2user.URLobj=key
-                        Log.w("Firebase",key)
-                    }
-                    catch (ex:Exception){
-                        val newItemDB = mDB.child("URL_item").push()
-                        newURL.objID = newItemDB.key
-                        newItemDB.setValue(newURL)
-                        newURL2user.URLobj=newItemDB.key
-                    }
+                var key: String? = ""
+                newURL2user.Note = note
+                var i = 0
+                mDB.child("URL_item").orderByChild("url").equalTo(url).limitToFirst(1)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            if (i == 0) {
+                                val children = dataSnapshot!!.children
+                                try {
+                                    key = children.first().key.toString()
+                                    newURL2user.URLobj = key
+                                    Log.w("Firebase", key)
+                                } catch (ex: Exception) {
+                                    val newItemDB = mDB.child("URL_item").push()
+                                    newURL.objID = newItemDB.key
+                                    newItemDB.setValue(newURL)
+                                    newURL2user.URLobj = newItemDB.key
+                                }
 
-                    addDB(newURL,newURL2user)
-                    }
-                    i+=1
-                }
+                                addDB(newURL, newURL2user)
+                            }
+                            i += 1
+                        }
 
-                override fun onCancelled(error: DatabaseError) {
-                     Log.e("Firebase","Failed to read value: ${error.toException()}")
-                }
-            })
+                        override fun onCancelled(error: DatabaseError) {
+                            Log.e("Firebase", "Failed to read value: ${error.toException()}")
+                        }
+                    })
 
-            Log.w("Key Key",key)
+                Log.w("Key Key", key)
 
 
+
+            }
+            else{
+                SimpleDialog( General(requireContext())
+                    .setTitle("Add Link")
+                    .setContent("URL is not Correct", 3)
+                ).show()
+            }
             dialog.dismiss()
         }
         dialog.show()
