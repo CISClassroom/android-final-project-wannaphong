@@ -216,9 +216,5 @@ class HomeFragment : Fragment()  {
             ).show()
             Log.e("Error > ",ex.toString())
         }
-
-
-
-
     }
 }

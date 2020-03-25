@@ -16,7 +16,13 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Link"
-            android:label="@string/title_activity_link" />
+            android:label="@string/title_activity_link">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/*" />
+            </intent-filter>
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
