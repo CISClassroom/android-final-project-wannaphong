@@ -1,13 +1,14 @@
 package th.ac.kku.cis.mobileapp.wwwlink
 
+import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import io.github.ponnamkarthik.richlinkpreview.RichLinkViewSkype
 import io.github.ponnamkarthik.richlinkpreview.RichLinkViewTwitter
 import io.github.ponnamkarthik.richlinkpreview.ViewListener
@@ -18,6 +19,9 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
     var contextthis: Context = context
     private var itemList = toDoItemList
+    lateinit var mDatabase: DatabaseReference
+    lateinit var auth: FirebaseAuth
+    var uid:String? = null
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         // create object from view
@@ -26,6 +30,8 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
         val NoteText: String? = itemList.get(position).Note  as String?
         val view: View
         val vh: ListRowHolder
+        auth = FirebaseAuth.getInstance()
+        uid= auth.currentUser!!.uid
 
         // get list view
         if (convertView == null) {
@@ -40,7 +46,7 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
         // add text to view
         vh.label.text = NoteText.toString()
         vh.urlshow.text = itemText.toString()
-        vh.ibDeleteObject.setVisibility(View.GONE)
+        //vh.ibDeleteObject.setVisibility(View.GONE)
         vh.richLinkView.setLink(
             vh.urlshow.text.toString(),
             object : ViewListener {
@@ -48,10 +54,25 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
                 override fun onError(e: Exception) {}
             })
         vh.ibDeleteObject.setOnClickListener {
-
-                Toast.makeText(view.context,itemText.toString(),Toast.LENGTH_LONG).show()
+            editData(view.context,objectId!!)
+                //Toast.makeText(view.context,itemText.toString(),Toast.LENGTH_LONG).show()
         }
         return view
+    }
+    fun editData(context: Context,objID:String){
+        mDatabase = FirebaseDatabase.getInstance().reference
+        val dialog = AlertDialog.Builder(context)
+        val alert = AlertDialog.Builder(context)
+        val itemEditText = EditText(context)
+        alert.setMessage("Add New Item")
+        alert.setTitle("Enter To Do Item Text")
+        alert.setView(itemEditText)
+        // Set submit button dialog
+        alert.setPositiveButton("Submit") { dialog, positiveButton ->
+            // puch command
+            mDatabase.child("URL").child(uid!!).child(objID).child("note").setValue(itemEditText.text.toString())
+        }
+        alert.show()
     }
 
     override fun getItem(index: Int): Any {

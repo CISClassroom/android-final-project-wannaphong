@@ -67,4 +67,5 @@ dependencies {
     implementation 'com.github.abdularis:circularimageview:1.4'
     implementation 'com.github.TutorialsAndroid:GButton:v1.0.19'
     implementation 'com.samigehi:loadingview:1.1'
+    implementation 'com.robertlevonyan.view:CustomFloatingActionButton:3.0.0'
 }
