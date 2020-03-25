@@ -59,6 +59,9 @@ class URLItemAdapter(context: Context, toDoItemList: MutableList<UserLink>) : Ba
         }
         return view
     }
+    fun delData(objID:String){
+        mDatabase.child("URL").child(uid!!).child(objID).child("note").removeValue()
+    }
     fun editData(context: Context,objID:String){
         mDatabase = FirebaseDatabase.getInstance().reference
         val dialog = AlertDialog.Builder(context)
