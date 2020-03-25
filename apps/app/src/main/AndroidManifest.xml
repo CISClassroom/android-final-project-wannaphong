@@ -17,8 +17,7 @@
         <activity
             android:name=".Link"
             android:label="@string/title_activity_link" />
-        <activity android:name=".MainActivity"
-            android:noHistory = "true">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
