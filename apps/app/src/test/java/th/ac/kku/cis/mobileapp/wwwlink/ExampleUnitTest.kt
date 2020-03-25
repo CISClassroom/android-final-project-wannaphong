@@ -1,4 +1,4 @@
-package th.ac.kku.cis.mobileapp.webbridges
+package th.ac.kku.cis.mobileapp.wwwlink
 
 import org.junit.Test
 

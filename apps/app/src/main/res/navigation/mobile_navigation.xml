@@ -7,19 +7,24 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="th.ac.kku.cis.mobileapp.webbridges.ui.home.HomeFragment"
+        android:name="th.ac.kku.cis.mobileapp.wwwlink.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
-
+<!--
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="th.ac.kku.cis.mobileapp.webbridges.ui.dashboard.DashboardFragment"
+        android:name="th.ac.kku.cis.mobileapp.wwwlink.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="th.ac.kku.cis.mobileapp.webbridges.ui.notifications.NotificationsFragment"
+        android:name="th.ac.kku.cis.mobileapp.wwwlink.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_notifications" /> -->
+    <fragment
+        android:id="@+id/navigation_setting"
+        android:name="th.ac.kku.cis.mobileapp.wwwlink.ui.setting.SettingFragment"
+        android:label="@string/title_setting"
+        tools:layout="@layout/setting_fragment" />
 </navigation>

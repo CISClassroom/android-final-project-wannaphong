@@ -1,53 +1,69 @@
-package th.ac.kku.cis.mobileapp.webbridges
+package th.ac.kku.cis.mobileapp.wwwlink
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.androidisland.ezpermission.EzPermission
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.android.synthetic.main.activity_home_login.*
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
+import kotlinx.android.synthetic.main.activity_main.*
 
-class HomeLogin : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), PermissionListener {
     lateinit var auth: FirebaseAuth
     lateinit var googleClient: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home_login)
+        setContentView(R.layout.activity_main)
+        EzPermission.with(this.applicationContext)
+            .permissions(
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.CAMERA
+            )
+            .request { granted, denied, permanentlyDenied ->
+                //Here you can check results...
+            }
+
 
         auth = FirebaseAuth.getInstance()
 
         sigin.setOnClickListener( {v->singIn()} )
-        sigout.setOnClickListener({v->singOut()})
+        //sigout.setOnClickListener({v->singOut()})
 
         var gso = GoogleSignInOptions.Builder(
-            GoogleSignInOptions.DEFAULT_SIGN_IN)
+                GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         googleClient = GoogleSignIn.getClient(this,gso)
         auth = FirebaseAuth.getInstance()
-    }
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+        checklogin()
 
-        when(requestCode){
-            1 -> {
-            }
+    }
+    private fun checklogin(){
+        if(auth.currentUser!=null){
+            Dexter.withActivity(this)
+                .withPermission(Manifest.permission.INTERNET)
+                .withListener(this)
+                .check()
         }
     }
+
     private fun singOut() {
         auth.signOut()
         googleClient.signOut().addOnCompleteListener(this) {
@@ -57,18 +73,16 @@ class HomeLogin : AppCompatActivity() {
 
     private fun updateUI(user: FirebaseUser?) {
         if(user==null){
-            show.text = "No User"
+          //  show.text = "No User"
         }
         else{
-            show.text = user.email.toString()
+            //show.text = user.email.toString()
+            checklogin()
         }
     }
 
     private fun singIn() {
-       /* if(checkSelfPermission(Manifest.permission.INTERNET) == PackageManager.PERMISSION_DENIED ){
-            val permission = arrayOf(Manifest.permission.INTERNET)
-            requestPermissions(permission,1)
-        }*/
+        singOut()
         var signInInent = googleClient.signInIntent
         startActivityForResult(signInInent,101)
     }
@@ -76,14 +90,13 @@ class HomeLogin : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==101){
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try{
-                Log.w("GG","OK")
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuth(account!!)
                 //FirebaseAuth(account)
-            }catch (e: ApiException){
-                Log.w("GG",e)
+            }catch (e:ApiException){
+                Log.w("login",e)
                 updateUI(null)
             }
         }
@@ -101,5 +114,21 @@ class HomeLogin : AppCompatActivity() {
                     updateUI(null)
                 }
             }
+    }
+
+    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+        val i = Intent(this, Link::class.java)
+        startActivity(i)
+    }
+
+    override fun onPermissionRationaleShouldBeShown(
+        permission: PermissionRequest?,
+        token: PermissionToken?
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+        TODO("Not yet implemented")
     }
 }

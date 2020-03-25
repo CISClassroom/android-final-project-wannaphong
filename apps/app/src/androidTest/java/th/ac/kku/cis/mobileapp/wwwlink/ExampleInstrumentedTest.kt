@@ -1,4 +1,4 @@
-package th.ac.kku.cis.mobileapp.webbridges
+package th.ac.kku.cis.mobileapp.wwwlink
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("th.ac.kku.cis.mobileapp.webbridges", appContext.packageName)
+        assertEquals("th.ac.kku.cis.mobileapp.wwwlink", appContext.packageName)
     }
 }

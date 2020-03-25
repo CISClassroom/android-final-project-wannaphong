@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">Web Bridges</string>
+    <string name="app_name">WWW Link</string>
+    <string name="title_activity_link">Link</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_setting">Setting</string>
 </resources>
