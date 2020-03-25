@@ -91,6 +91,8 @@ class HomeFragment : Fragment()  {
     fun addNewItem(){
         var c:Cleanurl = Cleanurl()
         val dialog = AlertDialog.Builder(activity)
+        dialog.setMessage("Add New Link")
+        dialog.setTitle("Enter Link and Note")
 
         val context: Context? = this.context
         val layout = LinearLayout(context)
