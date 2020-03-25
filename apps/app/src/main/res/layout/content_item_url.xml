@@ -51,14 +51,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/urlshow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                tools:visibility="invisible" />
+                tools:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 
