@@ -9,7 +9,6 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ListView
@@ -55,6 +54,7 @@ class HomeFragment : Fragment()  {
             ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         listViewItems = root.findViewById<View>(R.id.items_list) as ListView
+
         //val addbtn:Button = root.findViewById(R.id.AddURL)
         //val fab = root.findViewById<View>(R.id.fab) as FloatingActionButton
         /*addbtn.setOnClickListener {
@@ -217,4 +217,5 @@ class HomeFragment : Fragment()  {
             Log.e("Error > ",ex.toString())
         }
     }
+
 }

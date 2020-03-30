@@ -64,8 +64,8 @@ dependencies {
     implementation 'com.brouding:android-simple-dialog:1.0.1'
     implementation 'io.github.ponnamkarthik:richlinkpreview:1.0.9'
     implementation 'com.androidisland.ezpermission:ezpermission:0.1.4'
-    implementation 'com.github.abdularis:circularimageview:1.4'
     implementation 'com.github.TutorialsAndroid:GButton:v1.0.19'
     implementation 'com.samigehi:loadingview:1.1'
     implementation 'com.robertlevonyan.view:CustomFloatingActionButton:3.0.0'
+    implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'
 }
