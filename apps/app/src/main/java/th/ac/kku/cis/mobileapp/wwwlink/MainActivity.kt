@@ -37,7 +37,8 @@ class MainActivity : AppCompatActivity(), PermissionListener {
             )
             .request { granted, denied, permanentlyDenied ->
                 //Here you can check results...
-                AppExit()
+
+                //AppExit()
             }
 
 
