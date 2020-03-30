@@ -2,9 +2,9 @@ package th.ac.kku.cis.mobileapp.wwwlink
 
 import android.Manifest
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.androidisland.ezpermission.EzPermission
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), PermissionListener {
             )
             .request { granted, denied, permanentlyDenied ->
                 //Here you can check results...
+                AppExit()
             }
 
 
@@ -54,6 +55,16 @@ class MainActivity : AppCompatActivity(), PermissionListener {
         auth = FirebaseAuth.getInstance()
         checklogin()
 
+    }
+    fun AppExit() {
+        finish()
+        val intent = Intent(Intent.ACTION_MAIN)
+        intent.addCategory(Intent.CATEGORY_HOME)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+
+        /*int pid = android.os.Process.myPid();=====> use this if you want to kill your activity. But its not a good one to do.
+    android.os.Process.killProcess(pid);*/
     }
     private fun checklogin(){
         if(auth.currentUser!=null){
