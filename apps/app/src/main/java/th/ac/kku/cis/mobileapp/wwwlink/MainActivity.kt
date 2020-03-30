@@ -39,6 +39,10 @@ class MainActivity : AppCompatActivity(), PermissionListener {
                 //Here you can check results...
 
                 //AppExit()
+                if(permanentlyDenied.size!=0){
+                    AppExit()
+
+                }
             }
 
 
