@@ -1,8 +1,11 @@
 package th.ac.kku.cis.mobileapp.wwwlink.ui.home
 
+import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.InputType
 import android.util.Log
 import android.util.Patterns
@@ -12,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ListView
+import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.brouding.simpledialog.SimpleDialog
@@ -40,6 +44,7 @@ class HomeFragment : Fragment()  {
     var uid:String? = null
     var dialogload: LoadingDialog? = null
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -62,7 +67,12 @@ class HomeFragment : Fragment()  {
         }*/
         val fab = root.findViewById<View>(R.id.fab) as FloatingActionButton
         fab.setOnClickListener{
-            addNewItem()
+            addNewItem(null)
+        }
+        val fab2 = root.findViewById<View>(R.id.fab2) as FloatingActionButton
+        fab2.setOnClickListener {
+            val intent = Intent("com.google.zxing.client.android.SCAN")
+            startActivityForResult(Intent.createChooser(intent, "Scan with"), 1)
         }
         dialogload= LoadingDialog.get(requireActivity()).show()
         mDatabase = FirebaseDatabase.getInstance().reference.child("URL").child(uid!!)//.getReference("URL")//.getRe//.child("URL").child(uid!!).ref
@@ -101,12 +111,18 @@ class HomeFragment : Fragment()  {
         adapter.notifyDataSetChanged()
         dialogload?.hide()
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode ==1 && resultCode == RESULT_OK) {
+            val contents = data!!.getStringExtra("SCAN_RESULT")
+            addNewItem(contents)
+        }
+    }
     private fun isValidUrl(url: String): Boolean {
         val p: Pattern = Patterns.WEB_URL
         val m: Matcher = p.matcher(url.toLowerCase())
         return m.matches()
     }
-    fun addNewItem(){
+    fun addNewItem(u:String?){
         var c:Cleanurl = Cleanurl()
         val dialog = AlertDialog.Builder(activity)
         dialog.setMessage("Add New Link")
@@ -119,6 +135,8 @@ class HomeFragment : Fragment()  {
         val et = EditText(context)
         et.hint = "URL"
         et.inputType= InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS //"textWebEmailAddress"
+        if(u!=null)
+            et.setText(u.toString())
         layout.addView(et) // Notice this is an add method
 
         val descriptionBox = EditText(context)

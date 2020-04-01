@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.androidisland.ezpermission.EzPermission
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -28,6 +29,12 @@ class MainActivity : AppCompatActivity(), PermissionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (supportActionBar != null)
+            supportActionBar?.hide()
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         EzPermission.with(this.applicationContext)
             .permissions(
                 Manifest.permission.INTERNET,
@@ -39,6 +46,10 @@ class MainActivity : AppCompatActivity(), PermissionListener {
                 //Here you can check results...
 
                 //AppExit()
+                if(permanentlyDenied.size!=0){
+                    AppExit()
+
+                }
             }
 
 
