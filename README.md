@@ -2,7 +2,7 @@
 
 Save your link to WWW.
 
-It's open source software. It's used firebase.
+It's open source software. It's used Firebase Realtime Database.
 
 ## feature
 
