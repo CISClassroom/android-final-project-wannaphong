@@ -2,8 +2,6 @@
 
 Save your link to WWW.
 
-
-
 It's open source software. It's used Firebase Realtime Database.
 
 ## feature
@@ -11,6 +9,11 @@ It's open source software. It's used Firebase Realtime Database.
 - [x] Add Link and Note
 - [x] Edit Note
 - [x] Login and LogOut
+- [x] Share url from other app
+
+## Screenshot
+
+Go to [https://github.wannaphong.com/android-final-project-wannaphong/Screenshot](https://github.wannaphong.com/android-final-project-wannaphong/Screenshot)
 
 ## Developer
 
