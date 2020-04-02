@@ -11,6 +11,7 @@ It's open source software. It's used firebase.
 - [x] Add Link and Note
 - [x] Edit Note
 - [x] Login and LogOut
+- [x] Share url from other app
 
 ## Developer
 
