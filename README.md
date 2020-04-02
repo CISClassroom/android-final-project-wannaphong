@@ -2,8 +2,6 @@
 
 Save your link to WWW.
 
-
-
 It's open source software. It's used firebase.
 
 ## feature
@@ -12,6 +10,10 @@ It's open source software. It's used firebase.
 - [x] Edit Note
 - [x] Login and LogOut
 - [x] Share url from other app
+
+## Screenshot
+
+Go to https://github.wannaphong.com/android-final-project-wannaphong/Screenshot
 
 ## Developer
 
