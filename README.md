@@ -13,7 +13,7 @@ It's open source software. It's used firebase.
 
 ## Screenshot
 
-Go to ![https://github.wannaphong.com/android-final-project-wannaphong/Screenshot](https://github.wannaphong.com/android-final-project-wannaphong/Screenshot)
+Go to [https://github.wannaphong.com/android-final-project-wannaphong/Screenshot](https://github.wannaphong.com/android-final-project-wannaphong/Screenshot)
 
 ## Developer
 
